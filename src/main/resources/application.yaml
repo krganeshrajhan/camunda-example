@@ -17,4 +17,8 @@ camunda:
     generic-properties:
       properties:
         historyTimeToLive: 5
+    http-connector:
+      connect-timeout: 10000
+      read-timeout: 10000
+      socket-timeout: 30000
 

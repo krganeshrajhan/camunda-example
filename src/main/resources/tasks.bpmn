@@ -6,7 +6,7 @@
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="Flow_0enzqnn" sourceRef="StartEvent_1" targetRef="Activity_1aozyxc" />
     <bpmn:endEvent id="Event_0vwfbkd">
-      <bpmn:incoming>Flow_0vz3ybo</bpmn:incoming>
+      <bpmn:incoming>Flow_0xy71va</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_0yjbrpd" sourceRef="Activity_1aozyxc" targetRef="Activity_11k73sc" />
     <bpmn:scriptTask id="Activity_1aozyxc" name="Initialize User Object" scriptFormat="javascript" camunda:resultVariable="userObj">
@@ -96,7 +96,7 @@ print('userObj with userRole :: ' + JSON.stringify(userObj));</camunda:script>
       <bpmn:incoming>Flow_126uap9</bpmn:incoming>
       <bpmn:outgoing>Flow_0387rrj</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="Flow_0vz3ybo" sourceRef="Activity_15qbin3" targetRef="Event_0vwfbkd" />
+    <bpmn:sequenceFlow id="Flow_0vz3ybo" sourceRef="Activity_15qbin3" targetRef="service-task" />
     <bpmn:serviceTask id="Activity_15qbin3" name="Fetch User Department" camunda:expression="${userDepartmentService.getUserDepartment()}" camunda:resultVariable="userDepartment">
       <bpmn:extensionElements>
         <camunda:inputOutput>
@@ -112,55 +112,197 @@ print('userObj with department :: ' + JSON.stringify(userObj));</camunda:script>
       <bpmn:incoming>Flow_0387rrj</bpmn:incoming>
       <bpmn:outgoing>Flow_0vz3ybo</bpmn:outgoing>
     </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0brnxy7" sourceRef="service-task" targetRef="tasks_execute" />
+    <bpmn:serviceTask id="service-task" name="HTTP Connector GET">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="url">https://reqres.in/api/users</camunda:inputParameter>
+            <camunda:inputParameter name="method">GET</camunda:inputParameter>
+            <camunda:outputParameter name="responseGet">
+              <camunda:script scriptFormat="JavaScript">print('responseGET :: ' + response);
+response;</camunda:script>
+            </camunda:outputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0vz3ybo</bpmn:incoming>
+      <bpmn:outgoing>Flow_0brnxy7</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0xy71va" sourceRef="tasks_execute" targetRef="Event_0vwfbkd" />
+    <bpmn:serviceTask id="tasks_execute" name="HTTP Connector POST">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="url">https://reqres.in/api/users</camunda:inputParameter>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="payload">
+              <camunda:script scriptFormat="JavaScript">var obj = {
+    "first_name": "Damon",
+    "second_name": "Salvatore"
+}
+
+JSON.stringify(obj);</camunda:script>
+            </camunda:inputParameter>
+            <camunda:outputParameter name="responsePost">
+              <camunda:script scriptFormat="JavaScript">print('responsePOST :: ' + response);
+response;</camunda:script>
+            </camunda:outputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0brnxy7</bpmn:incoming>
+      <bpmn:outgoing>Flow_0xy71va</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:textAnnotation id="TextAnnotation_0ror4bi">
+      <bpmn:text>Script Task - Inline Script</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1ns8oip" associationDirection="None" sourceRef="Activity_1aozyxc" targetRef="TextAnnotation_0ror4bi" />
+    <bpmn:textAnnotation id="TextAnnotation_18krwqv">
+      <bpmn:text>Script Task - External Resource</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1sivalw" associationDirection="None" sourceRef="Activity_11k73sc" targetRef="TextAnnotation_18krwqv" />
+    <bpmn:textAnnotation id="TextAnnotation_0ijho6n">
+      <bpmn:text>Service Task - Java Class</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_119z0qv" associationDirection="None" sourceRef="Activity_0qr9ax8" targetRef="TextAnnotation_0ijho6n" />
+    <bpmn:textAnnotation id="TextAnnotation_0izbj68">
+      <bpmn:text>Service Task - Delegate Expression</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0ejewe8" associationDirection="None" sourceRef="Activity_1ll4ecg" targetRef="TextAnnotation_0izbj68" />
+    <bpmn:textAnnotation id="TextAnnotation_1aq4k9r">
+      <bpmn:text>Service Task - Expression</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1feju9s" associationDirection="None" sourceRef="Activity_15qbin3" targetRef="TextAnnotation_1aq4k9r" />
+    <bpmn:textAnnotation id="TextAnnotation_08onm3u">
+      <bpmn:text>Service Task - Connector GET</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0xc1zl3" associationDirection="None" sourceRef="service-task" targetRef="TextAnnotation_08onm3u" />
+    <bpmn:textAnnotation id="TextAnnotation_0z09qpy">
+      <bpmn:text>Service Task - Connector POST</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0dhiop2" associationDirection="None" sourceRef="tasks_execute" targetRef="TextAnnotation_0z09qpy" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="all_tasks">
       <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
-        <dc:Bounds x="182" y="102" width="36" height="36" />
+        <dc:Bounds x="182" y="182" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1jphcfq_di" bpmnElement="Activity_1aozyxc">
-        <dc:Bounds x="270" y="80" width="100" height="80" />
+        <dc:Bounds x="270" y="160" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1cr3btd_di" bpmnElement="Activity_11k73sc">
-        <dc:Bounds x="420" y="80" width="100" height="80" />
+        <dc:Bounds x="420" y="160" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1f5cmfy_di" bpmnElement="Activity_0qr9ax8">
-        <dc:Bounds x="570" y="80" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0vwfbkd_di" bpmnElement="Event_0vwfbkd">
-        <dc:Bounds x="992" y="102" width="36" height="36" />
+        <dc:Bounds x="570" y="160" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0i1itaj_di" bpmnElement="Activity_1ll4ecg">
-        <dc:Bounds x="720" y="80" width="100" height="80" />
+        <dc:Bounds x="720" y="160" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1tn0z2h_di" bpmnElement="Activity_15qbin3">
-        <dc:Bounds x="850" y="80" width="100" height="80" />
+        <dc:Bounds x="850" y="160" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_09qgvj3_di" bpmnElement="service-task">
+        <dc:Bounds x="1010" y="160" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0vwfbkd_di" bpmnElement="Event_0vwfbkd">
+        <dc:Bounds x="1302" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0u1drgq_di" bpmnElement="tasks_execute">
+        <dc:Bounds x="1160" y="160" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1ns8oip_di" bpmnElement="Association_1ns8oip">
+        <di:waypoint x="358" y="160" />
+        <di:waypoint x="395" y="121" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1sivalw_di" bpmnElement="Association_1sivalw">
+        <di:waypoint x="508" y="160" />
+        <di:waypoint x="532" y="135" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_119z0qv_di" bpmnElement="Association_119z0qv">
+        <di:waypoint x="658" y="160" />
+        <di:waypoint x="695" y="121" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0ejewe8_di" bpmnElement="Association_0ejewe8">
+        <di:waypoint x="808" y="160" />
+        <di:waypoint x="832" y="135" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1feju9s_di" bpmnElement="Association_1feju9s">
+        <di:waypoint x="938" y="160" />
+        <di:waypoint x="975" y="121" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0xc1zl3_di" bpmnElement="Association_0xc1zl3">
+        <di:waypoint x="1098" y="160" />
+        <di:waypoint x="1135" y="121" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0dhiop2_di" bpmnElement="Association_0dhiop2">
+        <di:waypoint x="1248" y="160" />
+        <di:waypoint x="1272" y="135" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_0ror4bi_di" bpmnElement="TextAnnotation_0ror4bi">
+        <dc:Bounds x="370" y="80" width="100" height="41" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_18krwqv_di" bpmnElement="TextAnnotation_18krwqv">
+        <dc:Bounds x="520" y="80" width="100" height="55" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0ijho6n_di" bpmnElement="TextAnnotation_0ijho6n">
+        <dc:Bounds x="670" y="80" width="100" height="41" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0izbj68_di" bpmnElement="TextAnnotation_0izbj68">
+        <dc:Bounds x="820" y="80" width="100" height="55" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1aq4k9r_di" bpmnElement="TextAnnotation_1aq4k9r">
+        <dc:Bounds x="950" y="80" width="100" height="41" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0enzqnn_di" bpmnElement="Flow_0enzqnn">
-        <di:waypoint x="218" y="120" />
-        <di:waypoint x="270" y="120" />
+        <di:waypoint x="218" y="200" />
+        <di:waypoint x="270" y="200" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0yjbrpd_di" bpmnElement="Flow_0yjbrpd">
-        <di:waypoint x="370" y="120" />
-        <di:waypoint x="420" y="120" />
+        <di:waypoint x="370" y="200" />
+        <di:waypoint x="420" y="200" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1n45ken_di" bpmnElement="Flow_1n45ken">
-        <di:waypoint x="520" y="120" />
-        <di:waypoint x="570" y="120" />
+        <di:waypoint x="520" y="200" />
+        <di:waypoint x="570" y="200" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_126uap9_di" bpmnElement="Flow_126uap9">
-        <di:waypoint x="670" y="120" />
-        <di:waypoint x="720" y="120" />
+        <di:waypoint x="670" y="200" />
+        <di:waypoint x="720" y="200" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0387rrj_di" bpmnElement="Flow_0387rrj">
-        <di:waypoint x="820" y="120" />
-        <di:waypoint x="850" y="120" />
+        <di:waypoint x="820" y="200" />
+        <di:waypoint x="850" y="200" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0vz3ybo_di" bpmnElement="Flow_0vz3ybo">
-        <di:waypoint x="950" y="120" />
-        <di:waypoint x="992" y="120" />
+        <di:waypoint x="950" y="200" />
+        <di:waypoint x="1010" y="200" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0brnxy7_di" bpmnElement="Flow_0brnxy7">
+        <di:waypoint x="1110" y="200" />
+        <di:waypoint x="1160" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0xy71va_di" bpmnElement="Flow_0xy71va">
+        <di:waypoint x="1260" y="200" />
+        <di:waypoint x="1302" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_08onm3u_di" bpmnElement="TextAnnotation_08onm3u">
+        <dc:Bounds x="1110" y="80" width="130" height="41" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0z09qpy_di" bpmnElement="TextAnnotation_0z09qpy">
+        <dc:Bounds x="1260" y="80" width="140" height="55" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>
