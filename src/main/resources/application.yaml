@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:h2:file:./camunda-h2-database
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: true
+
+
+camunda.bpm.admin-user:
+  id: demo
+  password: demo
+
+camunda:
+  bpm:
+    generic-properties:
+      properties:
+        historyTimeToLive: 5
+
