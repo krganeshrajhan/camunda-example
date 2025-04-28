@@ -3,6 +3,7 @@ package com.example.workflow.controller;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngines;
 import org.camunda.bpm.engine.runtime.ProcessInstantiationBuilder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,9 +16,9 @@ public class HomeController {
         return "hello";
     }
 
-    @RequestMapping(value="/execute", method = RequestMethod.GET)
-    public String execute() {
-        ProcessInstantiationBuilder instance = getProcessInstantiationBuilder("first_bpmn");
+    @RequestMapping(value="/execute/{processKey}", method = RequestMethod.GET)
+    public String execute(@PathVariable("processKey") String processKey) {
+        ProcessInstantiationBuilder instance = getProcessInstantiationBuilder(processKey);
 
         String item = "Computer";
 

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0wyz6kf" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.34.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.23.0">
+  <bpmn:process id="travel" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_0wyg3g8</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Activity_1vj9wwc" name="Prepare for Departure" camunda:formKey="">
+      <bpmn:incoming>Flow_0wyg3g8</bpmn:incoming>
+      <bpmn:outgoing>Flow_05eb2y4</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0wyg3g8" sourceRef="StartEvent_1" targetRef="Activity_1vj9wwc" />
+    <bpmn:userTask id="Activity_0iykwky" name="Get a Taxi" camunda:formRef="./forms/get_taxi.form" camunda:formRefBinding="latest">
+      <bpmn:incoming>Flow_05eb2y4</bpmn:incoming>
+      <bpmn:outgoing>Flow_0eew3yo</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_05eb2y4" sourceRef="Activity_1vj9wwc" targetRef="Activity_0iykwky" />
+    <bpmn:sequenceFlow id="Flow_0eew3yo" sourceRef="Activity_0iykwky" targetRef="Activity_1vsaqor" />
+    <bpmn:userTask id="Activity_1vsaqor">
+      <bpmn:incoming>Flow_0eew3yo</bpmn:incoming>
+      <bpmn:outgoing>Flow_0steseq</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Event_02sd9a4">
+      <bpmn:incoming>Flow_0steseq</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0steseq" sourceRef="Activity_1vsaqor" targetRef="Event_02sd9a4" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="travel">
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="182" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1jcurqb_di" bpmnElement="Activity_1vj9wwc">
+        <dc:Bounds x="290" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ujehna_di" bpmnElement="Activity_0iykwky">
+        <dc:Bounds x="470" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1n3ffsq_di" bpmnElement="Activity_1vsaqor">
+        <dc:Bounds x="680" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_02sd9a4_di" bpmnElement="Event_02sd9a4">
+        <dc:Bounds x="852" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0wyg3g8_di" bpmnElement="Flow_0wyg3g8">
+        <di:waypoint x="218" y="120" />
+        <di:waypoint x="290" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05eb2y4_di" bpmnElement="Flow_05eb2y4">
+        <di:waypoint x="390" y="120" />
+        <di:waypoint x="470" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0eew3yo_di" bpmnElement="Flow_0eew3yo">
+        <di:waypoint x="570" y="120" />
+        <di:waypoint x="680" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0steseq_di" bpmnElement="Flow_0steseq">
+        <di:waypoint x="780" y="120" />
+        <di:waypoint x="852" y="120" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

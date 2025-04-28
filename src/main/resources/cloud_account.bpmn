@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1w757qj" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.34.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.23.0">
+  <bpmn:process id="cloud_account_7" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_10fmttw</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="Event_1rptnyw">
+      <bpmn:incoming>Flow_109o5lz</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_10fmttw" sourceRef="StartEvent_1" targetRef="Activity_0ni4yq0" />
+    <bpmn:sequenceFlow id="Flow_0rab5gh" sourceRef="Activity_0ni4yq0" targetRef="Activity_0zktwia" />
+    <bpmn:scriptTask id="Activity_00zw235" name="1. Create Account" scriptFormat="JavaScript">
+      <bpmn:incoming>Flow_1c5ghjx</bpmn:incoming>
+      <bpmn:outgoing>Flow_08ls0au</bpmn:outgoing>
+      <bpmn:script>print("Cloud Account created");</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_08ls0au" sourceRef="Activity_00zw235" targetRef="Activity_18dyq8c" />
+    <bpmn:scriptTask id="Activity_0ni4yq0" name="System Owner approval" scriptFormat="JavaScript">
+      <bpmn:incoming>Flow_10fmttw</bpmn:incoming>
+      <bpmn:outgoing>Flow_0rab5gh</bpmn:outgoing>
+      <bpmn:script>print("System Owner has approved");</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_09mbfzp" sourceRef="Activity_18dyq8c" targetRef="Activity_1oke22y" />
+    <bpmn:scriptTask id="Activity_18dyq8c" name="2.Set Root Account Password" scriptFormat="JavaScript">
+      <bpmn:incoming>Flow_08ls0au</bpmn:incoming>
+      <bpmn:outgoing>Flow_09mbfzp</bpmn:outgoing>
+      <bpmn:script>print("Root account password set");</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_1etpwyz" sourceRef="Activity_1oke22y" targetRef="Activity_02fbwcu" />
+    <bpmn:scriptTask id="Activity_1oke22y" name="3. Enroll Root Account with token" scriptFormat="JavaScript">
+      <bpmn:incoming>Flow_09mbfzp</bpmn:incoming>
+      <bpmn:outgoing>Flow_1etpwyz</bpmn:outgoing>
+      <bpmn:script>print("Root Account has been enabled with hardware token");</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_1ymko9m" sourceRef="Activity_02fbwcu" targetRef="Activity_1a4bzfg" />
+    <bpmn:scriptTask id="Activity_02fbwcu" name="4. Remove default VPC" scriptFormat="JavaScript">
+      <bpmn:incoming>Flow_1etpwyz</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ymko9m</bpmn:outgoing>
+      <bpmn:script>print("Default VPC has been removed");</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_0mot40w" sourceRef="Activity_1a4bzfg" targetRef="Activity_1fmfaoz" />
+    <bpmn:sequenceFlow id="Flow_1vqjd4s" sourceRef="Activity_1fmfaoz" targetRef="Activity_1yg3a5v" />
+    <bpmn:sequenceFlow id="Flow_11uxfa6" sourceRef="Activity_1yg3a5v" targetRef="Activity_0gnjg4m" />
+    <bpmn:sequenceFlow id="Flow_0z91utq" sourceRef="Activity_0gnjg4m" targetRef="Activity_031s3xs" />
+    <bpmn:sequenceFlow id="Flow_1skh43k" sourceRef="Activity_031s3xs" targetRef="Activity_06ycqe8" />
+    <bpmn:sequenceFlow id="Flow_06qufyj" sourceRef="Activity_06ycqe8" targetRef="Activity_08naxqh" />
+    <bpmn:sequenceFlow id="Flow_1vqi0yf" sourceRef="Activity_08naxqh" targetRef="Activity_1baoa5h" />
+    <bpmn:sequenceFlow id="Flow_19wmqcg" sourceRef="Activity_1baoa5h" targetRef="Activity_0c1vlwx" />
+    <bpmn:sequenceFlow id="Flow_1un5l4u" sourceRef="Activity_0c1vlwx" targetRef="Activity_0a4im8o" />
+    <bpmn:sequenceFlow id="Flow_109o5lz" sourceRef="Activity_0a4im8o" targetRef="Event_1rptnyw" />
+    <bpmn:sequenceFlow id="Flow_07rrko4" sourceRef="Activity_0zktwia" targetRef="Activity_1ws65lc" />
+    <bpmn:sequenceFlow id="Flow_1c5ghjx" sourceRef="Activity_1ws65lc" targetRef="Activity_00zw235" />
+    <bpmn:scriptTask id="Activity_0zktwia" name="Head of Cloud Approval" scriptFormat="JavaScript">
+      <bpmn:incoming>Flow_0rab5gh</bpmn:incoming>
+      <bpmn:outgoing>Flow_07rrko4</bpmn:outgoing>
+      <bpmn:script>print("Head of Cloud has approved");</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:scriptTask id="Activity_1ws65lc" name="Change Manager Approval" scriptFormat="JavaScript">
+      <bpmn:incoming>Flow_07rrko4</bpmn:incoming>
+      <bpmn:outgoing>Flow_1c5ghjx</bpmn:outgoing>
+      <bpmn:script>print("Change Manager has approved");</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:scriptTask id="Activity_1a4bzfg" name="5. Update S3 bucket policy" scriptFormat="JavaScript">
+      <bpmn:incoming>Flow_1ymko9m</bpmn:incoming>
+      <bpmn:outgoing>Flow_0mot40w</bpmn:outgoing>
+      <bpmn:script>print("Access granted for new account on Seclogs account S3 bucket");</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:scriptTask id="Activity_1fmfaoz" name="6. Enable Cloudtrail and config" scriptFormat="JavaScript">
+      <bpmn:incoming>Flow_0mot40w</bpmn:incoming>
+      <bpmn:outgoing>Flow_1vqjd4s</bpmn:outgoing>
+      <bpmn:script>print("Cloudtrail and Config enabled to access Seclogs VPC");</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:scriptTask id="Activity_1yg3a5v" name="7. IAM Password policy setting" scriptFormat="JavaScript">
+      <bpmn:incoming>Flow_1vqjd4s</bpmn:incoming>
+      <bpmn:outgoing>Flow_11uxfa6</bpmn:outgoing>
+      <bpmn:script>print("Cloudtrail and Config enabled to access Seclogs VPC");</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:scriptTask id="Activity_0gnjg4m" name="8. Associate SSO Permission set" scriptFormat="JavaScript">
+      <bpmn:incoming>Flow_11uxfa6</bpmn:incoming>
+      <bpmn:outgoing>Flow_0z91utq</bpmn:outgoing>
+      <bpmn:script>print("SSO permission set assigned to AD group");</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:scriptTask id="Activity_031s3xs" name="9. Apply SCP" scriptFormat="JavaScript">
+      <bpmn:incoming>Flow_0z91utq</bpmn:incoming>
+      <bpmn:outgoing>Flow_1skh43k</bpmn:outgoing>
+      <bpmn:script>print("SSO permission set assigned to AD group");</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:scriptTask id="Activity_06ycqe8" name="10. Handover Hardware token" scriptFormat="JavaScript">
+      <bpmn:incoming>Flow_1skh43k</bpmn:incoming>
+      <bpmn:outgoing>Flow_06qufyj</bpmn:outgoing>
+      <bpmn:script>print("Hardware token handed over to GAM team");</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:scriptTask id="Activity_08naxqh" name="11. Enable Security services" scriptFormat="JavaScript">
+      <bpmn:incoming>Flow_06qufyj</bpmn:incoming>
+      <bpmn:outgoing>Flow_1vqi0yf</bpmn:outgoing>
+      <bpmn:script>print("Guardduty, Securityhub and inspector enabled");</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:scriptTask id="Activity_1baoa5h" name="12. IP Address assignment" scriptFormat="JavaScript">
+      <bpmn:incoming>Flow_1vqi0yf</bpmn:incoming>
+      <bpmn:outgoing>Flow_19wmqcg</bpmn:outgoing>
+      <bpmn:script>print("CIDRs allocated for cloud account");</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:scriptTask id="Activity_0c1vlwx" name="13. Create VPC" scriptFormat="JavaScript">
+      <bpmn:incoming>Flow_19wmqcg</bpmn:incoming>
+      <bpmn:outgoing>Flow_1un5l4u</bpmn:outgoing>
+      <bpmn:script>print("New VPC created");</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:scriptTask id="Activity_0a4im8o" name="14. Connect to TGW and GLB" scriptFormat="JavaScript">
+      <bpmn:incoming>Flow_1un5l4u</bpmn:incoming>
+      <bpmn:outgoing>Flow_109o5lz</bpmn:outgoing>
+      <bpmn:script>print("Account connected to TGW and GLB on NSS account");</bpmn:script>
+    </bpmn:scriptTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="cloud_account_7">
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="152" y="112" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1rptnyw_di" bpmnElement="Event_1rptnyw">
+        <dc:Bounds x="2932" y="112" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ydh0cm_di" bpmnElement="Activity_00zw235">
+        <dc:Bounds x="800" y="90" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1yxpfaj_di" bpmnElement="Activity_0ni4yq0">
+        <dc:Bounds x="260" y="90" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_06nbhdk_di" bpmnElement="Activity_18dyq8c">
+        <dc:Bounds x="980" y="90" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_154tbwg_di" bpmnElement="Activity_1oke22y">
+        <dc:Bounds x="1150" y="90" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1n6xn2b_di" bpmnElement="Activity_02fbwcu">
+        <dc:Bounds x="1310" y="90" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_00g15x2_di" bpmnElement="Activity_0zktwia">
+        <dc:Bounds x="430" y="90" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0u6xs11_di" bpmnElement="Activity_1ws65lc">
+        <dc:Bounds x="610" y="90" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0be8z04_di" bpmnElement="Activity_1a4bzfg">
+        <dc:Bounds x="1470" y="90" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_16kd0me_di" bpmnElement="Activity_1fmfaoz">
+        <dc:Bounds x="1620" y="90" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1s6w9qu_di" bpmnElement="Activity_1yg3a5v">
+        <dc:Bounds x="1770" y="90" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0iwfc2f_di" bpmnElement="Activity_0gnjg4m">
+        <dc:Bounds x="1910" y="90" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ztnjxn_di" bpmnElement="Activity_031s3xs">
+        <dc:Bounds x="2050" y="90" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0c18lkq_di" bpmnElement="Activity_06ycqe8">
+        <dc:Bounds x="2200" y="90" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_12bvtw0_di" bpmnElement="Activity_08naxqh">
+        <dc:Bounds x="2360" y="90" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0smxb7n_di" bpmnElement="Activity_1baoa5h">
+        <dc:Bounds x="2500" y="90" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0o2qq1d_di" bpmnElement="Activity_0c1vlwx">
+        <dc:Bounds x="2640" y="90" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1gkjzcl_di" bpmnElement="Activity_0a4im8o">
+        <dc:Bounds x="2770" y="90" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_10fmttw_di" bpmnElement="Flow_10fmttw">
+        <di:waypoint x="188" y="130" />
+        <di:waypoint x="260" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0rab5gh_di" bpmnElement="Flow_0rab5gh">
+        <di:waypoint x="360" y="130" />
+        <di:waypoint x="430" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_08ls0au_di" bpmnElement="Flow_08ls0au">
+        <di:waypoint x="900" y="130" />
+        <di:waypoint x="980" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_09mbfzp_di" bpmnElement="Flow_09mbfzp">
+        <di:waypoint x="1080" y="130" />
+        <di:waypoint x="1150" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1etpwyz_di" bpmnElement="Flow_1etpwyz">
+        <di:waypoint x="1250" y="130" />
+        <di:waypoint x="1310" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ymko9m_di" bpmnElement="Flow_1ymko9m">
+        <di:waypoint x="1410" y="130" />
+        <di:waypoint x="1470" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0mot40w_di" bpmnElement="Flow_0mot40w">
+        <di:waypoint x="1570" y="130" />
+        <di:waypoint x="1620" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1vqjd4s_di" bpmnElement="Flow_1vqjd4s">
+        <di:waypoint x="1720" y="130" />
+        <di:waypoint x="1770" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11uxfa6_di" bpmnElement="Flow_11uxfa6">
+        <di:waypoint x="1870" y="130" />
+        <di:waypoint x="1910" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0z91utq_di" bpmnElement="Flow_0z91utq">
+        <di:waypoint x="2010" y="130" />
+        <di:waypoint x="2050" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1skh43k_di" bpmnElement="Flow_1skh43k">
+        <di:waypoint x="2150" y="130" />
+        <di:waypoint x="2200" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06qufyj_di" bpmnElement="Flow_06qufyj">
+        <di:waypoint x="2300" y="130" />
+        <di:waypoint x="2360" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1vqi0yf_di" bpmnElement="Flow_1vqi0yf">
+        <di:waypoint x="2460" y="130" />
+        <di:waypoint x="2500" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_19wmqcg_di" bpmnElement="Flow_19wmqcg">
+        <di:waypoint x="2600" y="130" />
+        <di:waypoint x="2640" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1un5l4u_di" bpmnElement="Flow_1un5l4u">
+        <di:waypoint x="2740" y="130" />
+        <di:waypoint x="2770" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_109o5lz_di" bpmnElement="Flow_109o5lz">
+        <di:waypoint x="2870" y="130" />
+        <di:waypoint x="2932" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_07rrko4_di" bpmnElement="Flow_07rrko4">
+        <di:waypoint x="530" y="130" />
+        <di:waypoint x="610" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1c5ghjx_di" bpmnElement="Flow_1c5ghjx">
+        <di:waypoint x="710" y="130" />
+        <di:waypoint x="800" y="130" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

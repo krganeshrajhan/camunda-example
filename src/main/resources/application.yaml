@@ -22,3 +22,5 @@ camunda:
       read-timeout: 10000
       socket-timeout: 30000
 
+server:
+  port: 8089
