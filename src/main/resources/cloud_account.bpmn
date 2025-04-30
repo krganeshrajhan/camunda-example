@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1w757qj" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.34.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.23.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1w757qj" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.34.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.23.0">
   <bpmn:process id="cloud_account_7" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>Flow_10fmttw</bpmn:outgoing>
@@ -12,31 +12,26 @@
     <bpmn:scriptTask id="Activity_00zw235" name="1. Create Account" scriptFormat="JavaScript">
       <bpmn:incoming>Flow_1c5ghjx</bpmn:incoming>
       <bpmn:outgoing>Flow_08ls0au</bpmn:outgoing>
-      <bpmn:script>print("Cloud Account created");</bpmn:script>
+      <bpmn:script>print("1. Cloud Account created");</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:sequenceFlow id="Flow_08ls0au" sourceRef="Activity_00zw235" targetRef="Activity_18dyq8c" />
-    <bpmn:scriptTask id="Activity_0ni4yq0" name="System Owner approval" scriptFormat="JavaScript">
-      <bpmn:incoming>Flow_10fmttw</bpmn:incoming>
-      <bpmn:outgoing>Flow_0rab5gh</bpmn:outgoing>
-      <bpmn:script>print("System Owner has approved");</bpmn:script>
-    </bpmn:scriptTask>
     <bpmn:sequenceFlow id="Flow_09mbfzp" sourceRef="Activity_18dyq8c" targetRef="Activity_1oke22y" />
     <bpmn:scriptTask id="Activity_18dyq8c" name="2.Set Root Account Password" scriptFormat="JavaScript">
       <bpmn:incoming>Flow_08ls0au</bpmn:incoming>
       <bpmn:outgoing>Flow_09mbfzp</bpmn:outgoing>
-      <bpmn:script>print("Root account password set");</bpmn:script>
+      <bpmn:script>print("1. Root account password set");</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:sequenceFlow id="Flow_1etpwyz" sourceRef="Activity_1oke22y" targetRef="Activity_02fbwcu" />
     <bpmn:scriptTask id="Activity_1oke22y" name="3. Enroll Root Account with token" scriptFormat="JavaScript">
       <bpmn:incoming>Flow_09mbfzp</bpmn:incoming>
       <bpmn:outgoing>Flow_1etpwyz</bpmn:outgoing>
-      <bpmn:script>print("Root Account has been enabled with hardware token");</bpmn:script>
+      <bpmn:script>print("3. Root Account has been enabled with hardware token");</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:sequenceFlow id="Flow_1ymko9m" sourceRef="Activity_02fbwcu" targetRef="Activity_1a4bzfg" />
     <bpmn:scriptTask id="Activity_02fbwcu" name="4. Remove default VPC" scriptFormat="JavaScript">
       <bpmn:incoming>Flow_1etpwyz</bpmn:incoming>
       <bpmn:outgoing>Flow_1ymko9m</bpmn:outgoing>
-      <bpmn:script>print("Default VPC has been removed");</bpmn:script>
+      <bpmn:script>print("4. Default VPC has been removed");</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:sequenceFlow id="Flow_0mot40w" sourceRef="Activity_1a4bzfg" targetRef="Activity_1fmfaoz" />
     <bpmn:sequenceFlow id="Flow_1vqjd4s" sourceRef="Activity_1fmfaoz" targetRef="Activity_1yg3a5v" />
@@ -50,66 +45,69 @@
     <bpmn:sequenceFlow id="Flow_109o5lz" sourceRef="Activity_0a4im8o" targetRef="Event_1rptnyw" />
     <bpmn:sequenceFlow id="Flow_07rrko4" sourceRef="Activity_0zktwia" targetRef="Activity_1ws65lc" />
     <bpmn:sequenceFlow id="Flow_1c5ghjx" sourceRef="Activity_1ws65lc" targetRef="Activity_00zw235" />
-    <bpmn:scriptTask id="Activity_0zktwia" name="Head of Cloud Approval" scriptFormat="JavaScript">
-      <bpmn:incoming>Flow_0rab5gh</bpmn:incoming>
-      <bpmn:outgoing>Flow_07rrko4</bpmn:outgoing>
-      <bpmn:script>print("Head of Cloud has approved");</bpmn:script>
-    </bpmn:scriptTask>
-    <bpmn:scriptTask id="Activity_1ws65lc" name="Change Manager Approval" scriptFormat="JavaScript">
-      <bpmn:incoming>Flow_07rrko4</bpmn:incoming>
-      <bpmn:outgoing>Flow_1c5ghjx</bpmn:outgoing>
-      <bpmn:script>print("Change Manager has approved");</bpmn:script>
-    </bpmn:scriptTask>
     <bpmn:scriptTask id="Activity_1a4bzfg" name="5. Update S3 bucket policy" scriptFormat="JavaScript">
       <bpmn:incoming>Flow_1ymko9m</bpmn:incoming>
       <bpmn:outgoing>Flow_0mot40w</bpmn:outgoing>
-      <bpmn:script>print("Access granted for new account on Seclogs account S3 bucket");</bpmn:script>
+      <bpmn:script>print("5. Access granted for new account on Seclogs account S3 bucket");</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:scriptTask id="Activity_1fmfaoz" name="6. Enable Cloudtrail and config" scriptFormat="JavaScript">
       <bpmn:incoming>Flow_0mot40w</bpmn:incoming>
       <bpmn:outgoing>Flow_1vqjd4s</bpmn:outgoing>
-      <bpmn:script>print("Cloudtrail and Config enabled to access Seclogs VPC");</bpmn:script>
+      <bpmn:script>print("6. Cloudtrail and Config enabled to access Seclogs VPC");</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:scriptTask id="Activity_1yg3a5v" name="7. IAM Password policy setting" scriptFormat="JavaScript">
       <bpmn:incoming>Flow_1vqjd4s</bpmn:incoming>
       <bpmn:outgoing>Flow_11uxfa6</bpmn:outgoing>
-      <bpmn:script>print("Cloudtrail and Config enabled to access Seclogs VPC");</bpmn:script>
+      <bpmn:script>print("7. Cloudtrail and Config enabled to access Seclogs VPC");</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:scriptTask id="Activity_0gnjg4m" name="8. Associate SSO Permission set" scriptFormat="JavaScript">
       <bpmn:incoming>Flow_11uxfa6</bpmn:incoming>
       <bpmn:outgoing>Flow_0z91utq</bpmn:outgoing>
-      <bpmn:script>print("SSO permission set assigned to AD group");</bpmn:script>
+      <bpmn:script>print("8. SSO permission set assigned to AD group");</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:scriptTask id="Activity_031s3xs" name="9. Apply SCP" scriptFormat="JavaScript">
       <bpmn:incoming>Flow_0z91utq</bpmn:incoming>
       <bpmn:outgoing>Flow_1skh43k</bpmn:outgoing>
-      <bpmn:script>print("SSO permission set assigned to AD group");</bpmn:script>
+      <bpmn:script>print("9. SSO permission set assigned to AD group");</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:scriptTask id="Activity_06ycqe8" name="10. Handover Hardware token" scriptFormat="JavaScript">
       <bpmn:incoming>Flow_1skh43k</bpmn:incoming>
       <bpmn:outgoing>Flow_06qufyj</bpmn:outgoing>
-      <bpmn:script>print("Hardware token handed over to GAM team");</bpmn:script>
+      <bpmn:script>print("10. Hardware token handed over to GAM team");</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:scriptTask id="Activity_08naxqh" name="11. Enable Security services" scriptFormat="JavaScript">
       <bpmn:incoming>Flow_06qufyj</bpmn:incoming>
       <bpmn:outgoing>Flow_1vqi0yf</bpmn:outgoing>
-      <bpmn:script>print("Guardduty, Securityhub and inspector enabled");</bpmn:script>
+      <bpmn:script>print("11. Guardduty, Securityhub and inspector enabled");</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:scriptTask id="Activity_1baoa5h" name="12. IP Address assignment" scriptFormat="JavaScript">
       <bpmn:incoming>Flow_1vqi0yf</bpmn:incoming>
       <bpmn:outgoing>Flow_19wmqcg</bpmn:outgoing>
-      <bpmn:script>print("CIDRs allocated for cloud account");</bpmn:script>
+      <bpmn:script>print("12. CIDRs allocated for cloud account");</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:scriptTask id="Activity_0c1vlwx" name="13. Create VPC" scriptFormat="JavaScript">
       <bpmn:incoming>Flow_19wmqcg</bpmn:incoming>
       <bpmn:outgoing>Flow_1un5l4u</bpmn:outgoing>
-      <bpmn:script>print("New VPC created");</bpmn:script>
+      <bpmn:script>print("13. New VPC created");</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:scriptTask id="Activity_0a4im8o" name="14. Connect to TGW and GLB" scriptFormat="JavaScript">
       <bpmn:incoming>Flow_1un5l4u</bpmn:incoming>
       <bpmn:outgoing>Flow_109o5lz</bpmn:outgoing>
-      <bpmn:script>print("Account connected to TGW and GLB on NSS account");</bpmn:script>
+      <bpmn:script>print("14. Account connected to TGW and GLB on NSS account");</bpmn:script>
     </bpmn:scriptTask>
+    <bpmn:userTask id="Activity_0ni4yq0" name="System Owner approval" camunda:formKey="camunda-forms:/forms/systemowner.form" camunda:assignee="systemowner1">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_10fmttw</bpmn:incoming>
+      <bpmn:outgoing>Flow_0rab5gh</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_0zktwia" name="Head of Cloud Approval" camunda:formKey="camunda-forms:/forms/cloudowner.form" camunda:assignee="cloudowner1">
+      <bpmn:incoming>Flow_0rab5gh</bpmn:incoming>
+      <bpmn:outgoing>Flow_07rrko4</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_1ws65lc" name="Change Manager Approval" camunda:formKey="camunda-forms:/forms/changemanager.form" camunda:assignee="changemanager1">
+      <bpmn:incoming>Flow_07rrko4</bpmn:incoming>
+      <bpmn:outgoing>Flow_1c5ghjx</bpmn:outgoing>
+    </bpmn:userTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="cloud_account_7">
@@ -123,10 +121,6 @@
         <dc:Bounds x="800" y="90" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1yxpfaj_di" bpmnElement="Activity_0ni4yq0">
-        <dc:Bounds x="260" y="90" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_06nbhdk_di" bpmnElement="Activity_18dyq8c">
         <dc:Bounds x="980" y="90" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -137,12 +131,6 @@
       <bpmndi:BPMNShape id="Activity_1n6xn2b_di" bpmnElement="Activity_02fbwcu">
         <dc:Bounds x="1310" y="90" width="100" height="80" />
         <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_00g15x2_di" bpmnElement="Activity_0zktwia">
-        <dc:Bounds x="430" y="90" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0u6xs11_di" bpmnElement="Activity_1ws65lc">
-        <dc:Bounds x="610" y="90" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0be8z04_di" bpmnElement="Activity_1a4bzfg">
         <dc:Bounds x="1470" y="90" width="100" height="80" />
@@ -173,6 +161,15 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1gkjzcl_di" bpmnElement="Activity_0a4im8o">
         <dc:Bounds x="2770" y="90" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1yhkwz4_di" bpmnElement="Activity_0ni4yq0">
+        <dc:Bounds x="260" y="90" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0e55vax_di" bpmnElement="Activity_0zktwia">
+        <dc:Bounds x="430" y="90" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1wq4oh0_di" bpmnElement="Activity_1ws65lc">
+        <dc:Bounds x="610" y="90" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_10fmttw_di" bpmnElement="Flow_10fmttw">
         <di:waypoint x="188" y="130" />

@@ -1,0 +1,26 @@
+{
+  "components": [
+    {
+      "label": "Account Name",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0omo1n2",
+        "columns": null
+      },
+      "id": "Field_1lvysa7",
+      "key": "account",
+      "validate": {
+        "required": true
+      }
+    }
+  ],
+  "type": "default",
+  "id": "Form_0c35tdn",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.34.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.23.0",
+  "schemaVersion": 18
+}
